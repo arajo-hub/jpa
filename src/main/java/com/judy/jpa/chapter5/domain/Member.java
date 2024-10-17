@@ -7,7 +7,6 @@ import lombok.Setter;
 
 @Entity
 @Getter
-@Setter
 @NoArgsConstructor
 public class Member {
 
@@ -24,5 +23,21 @@ public class Member {
     public Member(String id, String username) {
         this.id = id;
         this.username = username;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public void setTeam(Team team) {
+        if (this.team != null) {
+            this.team.getMembers().remove(this); // 다른 팀에서 참조하고 있는 것 삭제하고 세팅해야함!
+        }
+        this.team = team;
+        team.getMembers().add(this);
     }
 }
