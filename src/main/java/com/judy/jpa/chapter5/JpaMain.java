@@ -20,7 +20,8 @@ public class JpaMain {
 
         try {
             tx.begin();
-            queryLogicJoin(em);
+            testSave(em);
+            updateRelation(em);
             tx.commit();
         } catch (Exception e) {
             tx.rollback();
@@ -57,4 +58,11 @@ public class JpaMain {
         }
     }
 
+    private static void updateRelation(EntityManager em) {
+        Team team2 = new Team("team2", "팀2");
+        em.persist(team2);
+
+        Member member = em.find(Member.class, "member1");
+        member.setTeam(team2);
+    }
 }
