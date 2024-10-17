@@ -20,7 +20,7 @@ public class JpaMain {
 
         try {
             tx.begin();
-            biDirection(em);
+            testORM_양방향(em);
             tx.commit();
         } catch (Exception e) {
             tx.rollback();
@@ -90,5 +90,22 @@ public class JpaMain {
             System.out.println("member.username = " +
                     member.getUsername());
         }
+    }
+
+    private static void testORM_양방향(EntityManager em) {
+        Team team1 = new Team("team1", "팀1");
+        em.persist(team1);
+
+        Member member1 = new Member("member1", "회원1");
+
+        member1.setTeam(team1);
+        team1.getMembers().add(member1); // 객체의 연관관계를 설정해줄 뿐 실제 저장 시 사용되지 않음
+        em.persist(member1);
+
+        Member member2 = new Member("member2", "회원2");
+
+        member2.setTeam(team1);
+        team1.getMembers().add(member2); // 객체의 연관관계를 설정해줄 뿐 실제 저장 시 사용되지 않음
+        em.persist(member2);
     }
 }
