@@ -22,6 +22,7 @@ public class JpaMain {
             tx.begin();
             testSave(em);
             updateRelation(em);
+            deleteRelation(em);
             tx.commit();
         } catch (Exception e) {
             tx.rollback();
@@ -64,5 +65,11 @@ public class JpaMain {
 
         Member member = em.find(Member.class, "member1");
         member.setTeam(team2);
+    }
+
+    private static void deleteRelation(EntityManager em) {
+        Member member1 = em.find(Member.class, "member1");
+        member1.setTeam(null); // 연관관계 제거
+        System.out.println(member1.getTeam());
     }
 }
