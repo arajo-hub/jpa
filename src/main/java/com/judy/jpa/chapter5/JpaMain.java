@@ -20,9 +20,7 @@ public class JpaMain {
 
         try {
             tx.begin();
-            testSave(em);
-            updateRelation(em);
-            deleteRelation(em);
+            biDirection(em);
             tx.commit();
         } catch (Exception e) {
             tx.rollback();
@@ -71,5 +69,24 @@ public class JpaMain {
         Member member1 = em.find(Member.class, "member1");
         member1.setTeam(null); // 연관관계 제거
         System.out.println(member1.getTeam());
+    }
+
+    private static void biDirection(EntityManager em) {
+        Team team1 = new Team("team1", "팀1");
+        em.persist(team1);
+
+        Member member1 = new Member("member1", "회원1");
+        team1.getMembers().add(member1);
+
+        Member member2 = new Member("member2", "회원2");
+        team1.getMembers().add(member2);
+
+        Team team = em.find(Team.class, "team1");
+        List<Member> members = team.getMembers(); // 객체 그래프 탐색
+
+        for (Member member : members) {
+            System.out.println("member.username = " +
+                    member.getUsername());
+        }
     }
 }
