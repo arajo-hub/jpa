@@ -36,10 +36,12 @@ public class JpaMain {
 
         Member member1 = new Member("member1", "회원1");
         member1.setTeam(team1);
+        team1.getMembers().add(member1); // 연관관계의 주인이 team.member가 아니므로 외래 키에 영향 X
         em.persist(member1);
 
         Member member2 = new Member("member2", "회원2");
         member2.setTeam(team1);
+        team1.getMembers().add(member2); // 연관관계의 주인이 team.member가 아니므로 외래 키에 영향 X
         em.persist(member2);
     }
 
