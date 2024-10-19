@@ -21,6 +21,10 @@ public class Member {
     @JoinColumn(name = "TEAM_ID", insertable = false, updatable = false)
     private Team team;
 
+    @OneToOne
+    @JoinColumn(name = "LOCKER_ID")
+    private Locker locker; // 연관관계의 주인
+
     public Member(String username) {
         this.username = username;
     }
