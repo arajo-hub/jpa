@@ -10,6 +10,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
 
+import java.util.List;
+
 @SpringBootApplication
 public class JpaMain {
 
@@ -21,7 +23,7 @@ public class JpaMain {
 
         try {
             tx.begin();
-            save(em);
+            findInverse(em);
             tx.commit();
         } catch (Exception e) {
             tx.rollback();
@@ -57,5 +59,21 @@ public class JpaMain {
         member1.setUsername("회원1");
         member1.getProducts().add(productA); // 연관관계 설정
         em.persist(member1);
+    }
+
+    public static void find(EntityManager em) {
+        Member member = em.find(Member.class, "member1");
+        List<Product> products = member.getProducts(); // 객체 그래프 탐색
+        for (Product product : products) {
+            System.out.println("product.name = " + product.getName());
+        }
+    }
+
+    public static void findInverse(EntityManager em) {
+        Product product = em.find(Product.class, "productA");
+        List<Member> members = product.getMembers();
+        for (Member member : members) {
+            System.out.println("member = " + member.getUsername());
+        }
     }
 }
