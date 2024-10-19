@@ -15,7 +15,8 @@ public class Locker {
 
     private String name;
 
-    @OneToOne(mappedBy = "locker")
+    @OneToOne
+    @JoinColumn(name = "MEMBER_ID")
     private Member member;
 
 }
