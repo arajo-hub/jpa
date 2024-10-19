@@ -1,5 +1,6 @@
 package com.judy.jpa.chapter6;
 
+import com.judy.jpa.chapter6.domain.Product;
 import com.judy.jpa.chapter6.domain.Team;
 import com.judy.jpa.chapter6.domain.Member;
 import jakarta.persistence.EntityManager;
@@ -20,7 +21,7 @@ public class JpaMain {
 
         try {
             tx.begin();
-            testSave(em);
+            save(em);
             tx.commit();
         } catch (Exception e) {
             tx.rollback();
@@ -43,5 +44,18 @@ public class JpaMain {
         em.persist(team1); // INSERT(team1), UPDATE(member1, member2)
         // member1, member2를 persist하지 않고 team1만 persist하려고 하면
         // team1만 DB에 저장됨
+    }
+
+    public static void save(EntityManager em) {
+        Product productA = new Product();
+        productA.setId("productA");
+        productA.setName("상품A");
+        em.persist(productA);
+
+        Member member1 = new Member();
+        member1.setId("member1");
+        member1.setUsername("회원1");
+        member1.getProducts().add(productA); // 연관관계 설정
+        em.persist(member1);
     }
 }
